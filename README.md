@@ -1,73 +1,118 @@
-# React + TypeScript + Vite
+# 🍰 Dessert Cart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img width="1440" height="1361" alt="image" src="https://github.com/user-attachments/assets/dc022287-8aca-48c2-a41c-7415f699993b" />
 
-Currently, two official plugins are available:
+A product list with cart UI built as a frontend practice project. Browse a menu of desserts, add items to the cart, adjust quantities, and confirm your order.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![App preview](https://path-to-your-image.png)](https://product-list-self-zeta.vercel.app/)
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Tool | Purpose |
 
-## Expanding the ESLint configuration
+| React + TypeScript | UI + type safety |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Vite | Build tool + dev server |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Tailwind CSS v4 | Utility-first styling |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Zustand | Global cart state |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Features
+
+- Add items to cart with a single click
+- Quantity selector replaces the button when item is in cart
+- Cart sidebar updates in real time — no page reload
+- Order confirmation modal with item summary
+- "Start New Order" clears the cart and resets the UI
+- Responsive layout — stacked on mobile, side-by-side on desktop
+- Cart sidebar sticks to the viewport while the product list scrolls
+- Custom font (RedHat Text) loaded from local assets
+
+## Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/your-username/dessert-cart.git
+cd dessert-cart
+
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open local host in your browser
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+dessert-cart/
+├── public/
+│   ├── data.json                  # Product data
+│   └── assets/
+│       ├── fonts/                 # RedHat Text woff2 files
+│       └── images/                # Product images + SVG icons
+│
+├── src/
+│   ├── types.ts                   # TypeScript interfaces
+│   ├── store.ts                   # Zustand cart store
+│   ├── index.css                  # Tailwind + @theme tokens + component classes
+│   ├── App.tsx                    # Root layout + modal state
+│   └── components/
+│       ├── CartItem/CartItem.tsx  # Product card (two-state button)
+│       ├── Cart/Cart.tsx          # Cart sidebar
+│       └── OrderModal/OrderModal.tsx
+│
+└── vite.config.ts
+```
+
+## CSS Architecture
+
+This project uses Tailwind CSS v4 with a clear separation of concerns:
+
+**Tailwind utilities** handle layout and spacing inline in JSX:
+```tsx
+
+```
+
+**`@theme` tokens** in `index.css` define the design system — they become Tailwind classes automatically:
+```css
+@theme {
+  --color-brand-orange: hsl(14, 86%, 42%);
+  --font-sans: 'RedHat', sans-serif;
+}
+```
+Which lets you use `text-brand-orange`, `bg-brand-orange`, `font-sans` etc. directly in JSX.
+
+**CSS component classes** handle anything stateful or visually complex — the two-state pill button, image border on active, confirm button. These live in `index.css` outside of `@theme`.
+
+## State Management
+
+Zustand provides a single global store. Any component can read or write cart state directly — no prop-drilling, no Context boilerplate:
+
+```ts
+const { cart, addToCart, updateQuantity, removeFromCart, clearCart } = useCartStore();
+```
+
+| Action | Behaviour |
+
+| `addToCart(product)` | Adds product with `quantity: 1` |
+
+| `updateQuantity(name, delta)` | ±1 quantity, auto-removes item at 0 |
+
+| `removeFromCart(name)` | Removes by name |
+
+| `clearCart()` | Resets cart to `[]` |
+
+## Data
+
+Products are loaded from `public/data.json` via `fetch('data.json')` in `App.tsx`. Each product has four image sizes (`thumbnail`, `mobile`, `tablet`, `desktop`) that map to the `ProductImage` TypeScript interface.
+
+## Scripts
+
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run preview  # Preview production build locally
