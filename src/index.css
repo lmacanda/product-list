@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-orange:        hsl(14, 86%, 42%);
+  --color-brand-orange-hover:  hsl(14, 86%, 35%);
+  --color-button-outline:      hsl(7, 20%, 60%);
+  --color-button-confirm:      oklch(55.3% 0.195 38.402);
+  --color-button-confirm-hover:oklch(55.3% 0.195 38.402 / 0.9);
+}
+
+@font-face {
+  font-family: 'RedHat';
+  src: url('/assets/fonts/RedHatText-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RedHat';
+  src: url('/assets/fonts/RedHatText-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RedHat';
+  src: url('/assets/fonts/RedHatText-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: 'RedHat', sans-serif;  /* ← replaces Tailwind's default font-sans */
+
+  /* ...your existing tokens */
+  --color-brand-orange: hsl(14, 86%, 42%);
+}
+
+.product-image {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+  max-height: 150px;
+  object-fit: cover;
+}
+
+
+.product-image.selected-border {
+  border-color: hsl(14, 86%, 42%);
+}
+
+  
+.btn-primary {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 2px solid hsl(7, 20%, 60%);
+  background: white;
+  min-width: 140px;
+  height: 44px;
+  padding: 0 16px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+
+
+/* State A: idle — the inner button is just transparent */
+.btn-primary button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.btn-primary:not(.btn-active):hover {
+  border-color: hsl(14, 86%, 42%);
+  color: hsl(14, 86%, 42%);
+}
+
+/* State B: active — the wrapper turns orange */
+.btn-primary.btn-active {
+  background: hsl(14, 86%, 42%);
+  border-color: hsl(14, 86%, 42%);
+  justify-content: space-between;
+  color: white;
+}
+
+.btn-primary.btn-active button {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid white !important;
+  color: white;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+
+
+.btn-primary.btn-active button:hover {
+  background: white;
+  color: hsl(14, 86%, 42%);
+}
+
+.btn-primary.btn-active span {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+   /* ── Confirm / New order button ── */
+  .btn-confirm {
+    width: 100%;
+    padding: 14px;
+    border-radius: 9999px;
+    background-color: var(--color-button-confirm);
+    color: white;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-confirm:hover {
+    background-color: var(--color-button-confirm-hover);
+  }
+
+  @media (min-width: 768px) {
+  .product-image { max-height: 200px; }
+  .btn-primary.btn-active button {
+    font-size: 1rem;     /* scale up on tablet+ */
+  }
+}
+
