@@ -30,9 +30,8 @@
 }
 
 @theme {
-  --font-sans: 'RedHat', sans-serif;  /* ← replaces Tailwind's default font-sans */
+  --font-sans: 'RedHat', sans-serif; 
 
-  /* ...your existing tokens */
   --color-brand-orange: hsl(14, 86%, 42%);
 }
 

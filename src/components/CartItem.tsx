@@ -2,13 +2,11 @@ import { useCartStore } from '../store';
 import type { Product } from '../types';
 
 
-// We define a "Props" interface just for this component
 interface CartItemProps {
   product: Product; 
 
 }
 
-// We tell React: "This function expects 'props' that match CartItemProps"
 export const CartItem = ({ product }: CartItemProps) => {
 
     const { cart, addToCart, updateQuantity } = useCartStore();
@@ -25,7 +23,7 @@ export const CartItem = ({ product }: CartItemProps) => {
           className={`product-image ${isInCart ? 'selected-border' : ''}`}
         />
         
-        {/* BUTTON LOGIC STARTS HERE */}
+        {/* BUTTON LOGIC */}
     <div className={`btn-primary text-xs ${isInCart ? 'btn-active' : ''}`}>
   {!isInCart ? (
     <button onClick={() => addToCart(product)}>

@@ -6,7 +6,7 @@ interface CartProps {
 }
 
 export const Cart = ({ onConfirm }: CartProps) => {
-  // We "pluck" what we need from the store
+  
   const { cart, removeFromCart} = useCartStore();
 
   // Calculate the total price of everything in the basket
@@ -44,7 +44,7 @@ export const Cart = ({ onConfirm }: CartProps) => {
                    onClick={() => removeFromCart(item.name)}
                    className=" w-6 h-6 rounded-full border-2 border-solid flex items-center justify-center  text-stone-400 cursor-pointer"
                 >
-                  {/* You can put an 'X' icon here later */}
+              
                   X
                 </button>
               </li>
@@ -62,7 +62,6 @@ export const Cart = ({ onConfirm }: CartProps) => {
           </div>
 
 
-{/* SNAPPING THE PIECE INTO PLACE: Add the onClick handler here */}
 <button className="btn-confirm" onClick={onConfirm}>
   Confirm Order
 </button>        </>
